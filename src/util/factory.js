@@ -218,12 +218,11 @@ const GoogleSheetInput = function () {
       const loadedSheetId = queryParams.sheetId.split("/d/")[1].split("/")[0]
 
       console.log(loadedSheetId)
-      console.log(process.env.HOST)
-      console.log(process.env.PORT)
+      console.log(process.env.PAGE_HOST)
+      console.log(process.env.PAGE_PORT)
 
-      var url = "http://192.168.74.173:"+ (process.env.PORT || 1338) + "/googlesheets/load?id="+loadedSheetId;
+      var url = "http://"+process.env.PAGE_HOST + ":"+process.env.PAGE_PORT + "/googlesheets/load?id="+loadedSheetId;
 
-      
       callback = function(response) {
         var str = '';
       
@@ -241,7 +240,7 @@ const GoogleSheetInput = function () {
           
           console.log("Despues de response")
 
-          var localUrl = "http://192.168.74.173:" + (process.env.PORT || 1338) + "/sheets/"+str+".csv";
+          var localUrl = "http://"+process.env.PAGE_HOST +":"+ process.env.PAGE_PORT + "/sheets/"+str+".csv";
 
           sheet = CSVDocument(localUrl)
           sheet.init().build()
