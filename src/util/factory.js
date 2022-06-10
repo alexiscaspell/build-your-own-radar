@@ -23,9 +23,8 @@ const Sheet = require('./sheet')
 const ExceptionMessages = require('./exceptionMessages')
 const GoogleAuth = require('./googleAuth')
 
-const https = require('https');
-const http = require('http')
-
+const { auth } = require('google-auth-library');
+const keys = require('../../token.json');
 
 const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
   if (title.endsWith('.csv')) {
@@ -156,7 +155,7 @@ const GoogleSheet = function (sheetReference, sheetName) {
   return self
 }
 
-const CSVDocument = function (url) {
+const CSVDocument = function (url,filename=null) {
   var self = {}
 
   self.build = function () {
@@ -171,7 +170,7 @@ const CSVDocument = function (url) {
       contentValidator.verifyContent()
       contentValidator.verifyHeaders()
       var blips = _.map(data, new InputSanitizer().sanitize)
-      plotRadar(FileName(url), blips, 'CSV File', [])
+      plotRadar(filename || FileName(url), blips, 'CSV File', [])
     } catch (exception) {
       plotErrorMessage(exception)
     }
@@ -201,6 +200,12 @@ const FileName = function (url) {
   return url
 }
 
+const getClient = async function() {
+  const client = auth.fromJSON(keys);
+  client.scopes = ['https://www.googleapis.com/auth/spreadsheets'];
+  return client;
+}
+
 const GoogleSheetInput = function () {
   var self = {}
   var sheet
@@ -210,52 +215,36 @@ const GoogleSheetInput = function () {
     var queryString = window.location.href.match(/sheetId(.*)/)
     var queryParams = queryString ? QueryParams(queryString[0]) : {}
 
+    var radarNameQuery = window.location.href.match(/radarName(.*)/)
+
+    const defaultRadarName = "Tech Radar"
+    var radarName = radarNameQuery ? QueryParams(radarNameQuery[0]).radarName : defaultRadarName
+    radarName = radarName.trim()=="" ? defaultRadarName : radarName
+
     if (domainName && queryParams.sheetId.endsWith('csv')) {
       sheet = CSVDocument(queryParams.sheetId)
       sheet.init().build()
     } else if (domainName && domainName.endsWith('google.com') && queryParams.sheetId) {
-
       const loadedSheetId = queryParams.sheetId.split("/d/")[1].split("/")[0]
 
+      console.log(radarName)
       console.log(loadedSheetId)
-      console.log(process.env.PAGE_HOST)
-      console.log(process.env.PAGE_PORT)
 
-      var url = "http://"+process.env.PAGE_HOST + ":"+process.env.PAGE_PORT + "/googlesheets/load?id="+loadedSheetId;
+      getClient().then(function(client){
+        client.getAccessToken().then(function(token){
+          var url = `https://docs.google.com/spreadsheets/d/${loadedSheetId}/gviz/tq?tqx=out:csv&access_token=${token.token}`;
 
-      callback = function(response) {
-        var str = '';
-      
-        //another chunk of data has been received, so append it to `str`
-        response.on('data', function (chunk) {
-          str += chunk;
-        });
-      
-        //the whole response has been received, so we just print it out here
-        response.on('end', function () {
+          // client.request({url}).then(function(response){
+          //   console.log(response)
+          //   // console.log(response)
+          // })
 
-          console.log("ANtes de response")
-          
-          console.log(str);
-          
-          console.log("Despues de response")
-
-          var localUrl = "http://"+process.env.PAGE_HOST +":"+ process.env.PAGE_PORT + "/sheets/"+str+".csv";
-
-          sheet = CSVDocument(localUrl)
+          sheet = CSVDocument(url,filename=radarName)
           sheet.init().build()
-        });
-      }
 
-      console.log("ANtes de request")
-      
-      http.request(url, callback).end();
-      console.log("Despues de request")
+        })
+      })
 
-      // sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName)
-      // console.log(queryParams.sheetName)
-
-      // sheet.init().build()
     } else {
       var content = d3.select('body')
         .append('div')
@@ -332,6 +321,11 @@ function plotForm (content) {
   var form = content.select('.input-sheet__form').append('form')
     .attr('method', 'get')
 
+  form.append('input')
+    .attr('type', 'text')
+    .attr('name', 'radarName')
+    .attr('placeholder', 'e.g. My awesome Radar')
+    
   form.append('input')
     .attr('type', 'text')
     .attr('name', 'sheetId')

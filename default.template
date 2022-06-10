@@ -24,11 +24,4 @@ server {
     default_type text/plain;
     add_header 'Access-Control-Allow-Origin' '*';
   }
-
-  location ~ /googlesheets/load{
-    include uwsgi_params;
-    uwsgi_param QUERY_PARAMS '$query_string';
-    uwsgi_pass unix:///tmp/uwsgi.sock;
-  }
-
 }
