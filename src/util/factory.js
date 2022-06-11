@@ -201,9 +201,19 @@ const FileName = function (url) {
 }
 
 const getClient = async function() {
+  if(Object.keys(keys).length === 0){
+    return {};
+  }
   const client = auth.fromJSON(keys);
   client.scopes = ['https://www.googleapis.com/auth/spreadsheets'];
   return client;
+}
+
+const getAccessToken = async function(client) {
+  if(Object.keys(client).length === 0){
+    return {};
+  }
+  return client.getAccessToken()
 }
 
 const GoogleSheetInput = function () {
@@ -231,8 +241,17 @@ const GoogleSheetInput = function () {
       console.log(loadedSheetId)
 
       getClient().then(function(client){
-        client.getAccessToken().then(function(token){
-          var url = `https://docs.google.com/spreadsheets/d/${loadedSheetId}/gviz/tq?tqx=out:csv&access_token=${token.token}`;
+
+        getAccessToken(client).then(function(token){
+          var url = null;
+
+          if(Object.keys(token).length === 0){
+            url = `https://docs.google.com/spreadsheets/d/${loadedSheetId}/gviz/tq?tqx=out:csv`;
+            console.log(url)
+          }
+          else{
+            url = `https://docs.google.com/spreadsheets/d/${loadedSheetId}/gviz/tq?tqx=out:csv&access_token=${token.token}`;
+          }
 
           // client.request({url}).then(function(response){
           //   console.log(response)
