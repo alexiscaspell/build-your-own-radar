@@ -73,7 +73,6 @@ $ docker pull alexiscaspell/build-your-own-radar
 $ docker run --rm -p 8080:8080 -v /path-to-your-token/token.json:/src/build-your-own-radar/token.json alexiscaspell/build-your-own-radar
 $ open http://localhost:8080
 ```
-You can check your setup by clicking on "Build my radar" and by loading the `csv` file on this location: http://localhost:8080/sheets/radar.csv
 
 ## Advanced option - Docker image served with nginx 
 
@@ -83,5 +82,6 @@ $ docker build -t build-your-own-radar -f Dockerfile-prod .
 $ docker run --rm -p 8080:80 build-your-own-radar
 $ open http://localhost:8080
 ```                                                                                                                    
+Also you can work locally on your machine, updating the csv file (mounting dir **/opt/build-your-own-radar/sheets/**) and rendering the result back on your browser (only in production mode).
 
-Also in both cases you can always work locally on your machine, updating the csv file (mounting dir /mnt/radar/sheets/) and rendering the result back on your browser.
+You can check your setup by clicking on "Build my radar" and by loading the `csv` file on this location: http://localhost:8080/sheets/radar.csv
