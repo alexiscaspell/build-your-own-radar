@@ -1,15 +1,5 @@
-[![Build Status](https://travis-ci.org/thoughtworks/build-your-own-radar.svg?branch=master)](https://travis-ci.org/thoughtworks/build-your-own-radar)
-[![Stars](https://badgen.net/github/stars/thoughtworks/build-your-own-radar)](https://github.com/thoughtworks/build-your-own-radar)
-[![dependencies Status](https://david-dm.org/thoughtworks/build-your-own-radar/status.svg)](https://david-dm.org/thoughtworks/build-your-own-radar)
-[![devDependencies Status](https://david-dm.org/thoughtworks/build-your-own-radar/dev-status.svg)](https://david-dm.org/thoughtworks/build-your-own-radar?type=dev)
-[![peerDependencies Status](https://david-dm.org/thoughtworks/build-your-own-radar/peer-status.svg)](https://david-dm.org/thoughtworks/build-your-own-radar?type=peer)
-[![Docker Hub Pulls](https://img.shields.io/docker/pulls/wwwthoughtworks/build-your-own-radar.svg)](https://hub.docker.com/r/wwwthoughtworks/build-your-own-radar)
-[![GitHub contributors](https://badgen.net/github/contributors/thoughtworks/build-your-own-radar?color=cyan)](https://github.com/thoughtworks/build-your-own-radar/graphs/contributors)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![AGPL License](https://badgen.net/github/license/thoughtworks/build-your-own-radar)](https://github.com/thoughtworks/build-your-own-radar)
-
-
-A library that generates an interactive radar, inspired by [thoughtworks.com/radar](http://thoughtworks.com/radar).
+# BUILD YOUR OWN RADAR
+> A library that generates an interactive radar, inspired by [thoughtworks.com/radar](http://thoughtworks.com/radar).
 
 ## Demo
 
@@ -73,7 +63,7 @@ The app uses [Tabletop.js](https://github.com/jsoma/tabletop) to fetch the data 
 
 The application uses [webpack](https://webpack.github.io/) to package dependencies and minify all .js and .scss files.
 
-The application also supports private google sheets. Following flags need to be set for private sheets to work. API key and OAuth Client ID can be obtained from your Google developer console.
+The application also supports private google sheets. For that you must have created a google service account and credentials associated with it in a token.json file (to create a service account see https://cloud.google.com/iam/docs/creating-managing-service-accounts).
 
 
 ```
@@ -82,67 +72,23 @@ export API_KEY=[Google API Key]
 export CLIENT_ID=[Google Client ID]
 ```
 
-To enable Google Tag Manager, add the following environment variable.
-```
-export GTM_ID=[GTM ID]
-```
-
 ## Docker Image
-We have released BYOR as a docker image for our users. The image is available in our [DockerHub Repo](https://hub.docker.com/r/wwwthoughtworks/build-your-own-radar/). To pull and run the image, run the following commands.
+I have released a dev-mode BYOR as a docker image for easy use. The image is available in [DockerHub Repo](https://hub.docker.com/r/alexiscaspell/build-your-own-radar/). To pull and run the image, run the following commands.
 
 ```
-$ docker pull wwwthoughtworks/build-your-own-radar
-$ docker run --rm -p 8080:80 -e SERVER_NAMES="localhost 127.0.0.1" wwwthoughtworks/build-your-own-radar
+$ docker pull alexiscaspell/build-your-own-radar
+$ docker run --rm -p 8080:8080 -v /path-to-your-token/token.json:/src/build-your-own-radar/token.json alexiscaspell/build-your-own-radar
 $ open http://localhost:8080
 ```
-
 You can check your setup by clicking on "Build my radar" and by loading the `csv` file on this location: http://localhost:8080/sheets/radar.csv
 
-## Advanced option - Docker image with a csv file from the host machine
+## Advanced option - Docker image served with nginx 
 
 ```
-$ docker pull wwwthoughtworks/build-your-own-radar
-$ docker run --rm -p 8080:80 -e SERVER_NAMES="localhost 127.0.0.1" -v /mnt/radar/sheets/:/opt/build-your-own-radar/sheets wwwthoughtworks/build-your-own-radar
+$ cp /path-to-your-token/token.json token.json
+$ docker build -t build-your-own-radar -f Dockerfile-prod
+$ docker run --rm -p 8080:80 build-your-own-radar
 $ open http://localhost:8080
 ```                                                                                                                    
 
-This will:
-
-1. spawn a server that will listen locally on port 8080
-1. mount the host volume on `/mnt/radar/sheets/` into the container on `/opt/build-your-own-radar/sheets/`.
-1. open http://localhost:8080 and for the URL piece '(Enter the URL of your Google Sheet of CSV file bellow...)' type: http://localhost:8080/sheets/${NAME_OF_YOUR_SHEET}.csv - it needs to be a csv file.
-
-You can now work locally on your machine, updating the csv file, rendering the result back on your browser.
-
-
-## Contribute
-
-All tasks are defined in `package.json`.
-
-Pull requests are welcome; please write tests whenever possible. 
-Make sure you have nodejs installed.
-
-- `git clone git@github.com:thoughtworks/build-your-own-radar.git`
-- `npm install`
-- `npm test` - to run your tests
-- `npm run dev` - to run application in localhost:8080. This will watch the .js and .css files and rebuild on file changes
-
-To run End to End tests in headless mode
-- add a new environment variable 'TEST_URL' and set it to 'http://localhost:8080/'
-- `npm run end_to_end_test`
-
-To run End to End tests in debug mode
-- add a new environment variable 'TEST_URL' and set it to 'http://localhost:8080/'
-- `npm run start`
-- Click on 'Run all specs' in cypress window
-
-### Don't want to install node? Run with one line docker
-
-     $ docker run -p 8080:8080 -v $PWD:/app -w /app -it node:10.15.3 /bin/sh -c 'npm install && npm run dev'
-
-***Note***: If you are facing Node-sass compile error while running, please prefix the command `npm rebuild node-sass` before `npm run dev`. like this
-```
-npm install && npm rebuild node-sass && npm run dev
-```
-
-After building it will start on `localhost:8080`
+Also in both cases you can always work locally on your machine, updating the csv file (mounting dir /mnt/radar/sheets/) and rendering the result back on your browser.
