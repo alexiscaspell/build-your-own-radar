@@ -65,13 +65,6 @@ The application uses [webpack](https://webpack.github.io/) to package dependenci
 
 The application also supports private google sheets. For that you must have created a google service account and credentials associated with it in a token.json file (to create a service account see https://cloud.google.com/iam/docs/creating-managing-service-accounts).
 
-
-```
-export ENABLE_GOOGLE_AUTH=true
-export API_KEY=[Google API Key]
-export CLIENT_ID=[Google Client ID]
-```
-
 ## Docker Image
 I have released a dev-mode BYOR as a docker image for easy use. The image is available in [DockerHub Repo](https://hub.docker.com/r/alexiscaspell/build-your-own-radar/). To pull and run the image, run the following commands.
 
@@ -86,7 +79,7 @@ You can check your setup by clicking on "Build my radar" and by loading the `csv
 
 ```
 $ cp /path-to-your-token/token.json token.json
-$ docker build -t build-your-own-radar -f Dockerfile-prod
+$ docker build -t build-your-own-radar -f Dockerfile-prod .
 $ docker run --rm -p 8080:80 build-your-own-radar
 $ open http://localhost:8080
 ```                                                                                                                    
