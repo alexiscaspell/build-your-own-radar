@@ -24,11 +24,10 @@ Create a Google Sheet. Give it at least the below column headers, and put in the
 
 ### Sharing the sheet
 
-* In Google sheets, go to 'File', choose 'Publish to the web...' and then click 'Publish'.
-* Close the 'Publish to the web' dialog.
-* Copy the URL of your editable sheet from the browser (Don't worry, this does not share the editable version). 
+* In Google sheets, go to 'File', choose 'Share with others...' and then select the 'Anyone with the link' option.
+* Copy the shareable link generated. 
 
-The URL will be similar to [https://docs.google.com/spreadsheets/d/1waDG0_W3-yNiAaUfxcZhTKvl7AUCgXwQw8mdPjCz86U/edit](https://docs.google.com/spreadsheets/d/1waDG0_W3-yNiAaUfxcZhTKvl7AUCgXwQw8mdPjCz86U/edit). In theory we are only interested in the part between '/d/' and '/edit' but you can use the whole URL if you want.
+The URL will be similar to [https://docs.google.com/spreadsheets/d/1waDG0_W3-yNiAaUfxcZhTKvl7AUCgXwQw8mdPjCz86U/edit](https://docs.google.com/spreadsheets/d/1waDG0_W3-yNiAaUfxcZhTKvl7AUCgXwQw8mdPjCz86U/edit).
 
 ### Using CSV data
 The other way to provide your data is using CSV document format.
@@ -66,7 +65,7 @@ The application uses [webpack](https://webpack.github.io/) to package dependenci
 The application also supports private google sheets. For that you must have created a google service account and credentials associated with it in a token.json file (to create a service account see https://cloud.google.com/iam/docs/creating-managing-service-accounts).
 
 ## Docker Image
-I have released a dev-mode BYOR as a docker image for easy use. The image is available in [DockerHub Repo](https://hub.docker.com/r/alexiscaspell/build-your-own-radar/). To pull and run the image, run the following commands.
+I have released a dev-mode BYOR as a docker image for easy use (runs a webpack-dev-server). The image is available in [DockerHub Repo](https://hub.docker.com/r/alexiscaspell/build-your-own-radar/). To pull and run the image, run the following commands.
 
 ```
 $ docker pull alexiscaspell/build-your-own-radar
@@ -85,3 +84,12 @@ $ open http://localhost:8080
 Also you can work locally on your machine, updating the csv file (mounting dir **/opt/build-your-own-radar/sheets/**) and rendering the result back on your browser (only in production mode).
 
 You can check your setup by clicking on "Build my radar" and by loading the `csv` file on this location: http://localhost:8080/sheets/radar.csv
+
+## Docker image with only local csvs
+This option is the advanced option but already builded for quick use. By not having an associated service account you can only access local csvs or public google sheets. To pull and run the image, run the following commands.
+
+```
+$ docker pull alexiscaspell/build-your-own-radar:latest_local
+$ docker run --rm -p 8080:80 -v /path-to-your-csvs:/opt/build-your-own-radar/sheets alexiscaspell/build-your-own-radar:latest_local
+$ open http://localhost:8080
+```
