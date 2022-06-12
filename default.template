@@ -1,6 +1,6 @@
 # server block for static file serving
 server {
-  listen 80;
+  listen ${PORT};
   location / {
     root /opt/build-your-own-radar;
     index index.html;
