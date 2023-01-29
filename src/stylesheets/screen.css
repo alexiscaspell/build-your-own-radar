@@ -1,0 +1,234 @@
+.button,
+.home-link {
+    cursor: pointer;
+    font-size: 17px
+}
+
+.button {
+    background-color: #eee;
+    color: #000;
+    margin-right: 20px;
+    padding: 10px 20px;
+    text-transform: capitalize
+}
+
+.button.no-capitalize {
+    text-transform: none
+}
+
+.button.selected,
+.button:hover {
+    opacity: .85;
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px)
+}
+
+.button.selected.first,
+.button:hover.first {
+    background-color: #86b782;
+    color: #fff
+}
+
+.button.selected.second,
+.button:hover.second {
+    background-color: #1ebccd;
+    color: #fff
+}
+
+.button.selected.third,
+.button:hover.third {
+    background-color: #f38a3e;
+    color: #fff
+}
+
+.button.selected.fourth,
+.button:hover.fourth {
+    background-color: #b32059;
+    color: #fff
+}
+
+.button.full-view.first {
+    background-color: #86b782;
+    color: #fff
+}
+
+.button.full-view.second {
+    background-color: #1ebccd;
+    color: #fff
+}
+
+.button.full-view.third {
+    background-color: #f38a3e;
+    color: #fff
+}
+
+.button.full-view.fourth {
+    background-color: #b32059;
+    color: #fff
+}
+
+.button {
+    background-position: 92%!important;
+    background-repeat: no-repeat!important;
+    background: #221d1f;
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+    display: inline-block;
+    font-family: Open Sans, Microsoft YaHei, Hiragino Sans GB, Hiragino Sans GB W3, å¾®è½¯é›…é»‘, Helvetica Neue, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 100;
+    margin-right: 25px;
+    padding: 12.5px 25px;
+    text-align: center;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out
+}
+
+.button:hover {
+    background: #594c51;
+    color: #fff;
+    cursor: pointer;
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px)
+}
+
+.button.light {
+    background: #fff;
+    color: #221d1f
+}
+
+.button.light:hover {
+    background: #ccc;
+    color: #221d1f
+}
+
+.button:last-child {
+    margin-right: 0
+}
+
+a.button.button--block {
+    display: block
+}
+
+a.button.btn-spinner:focus,
+a.button.btn-spinner:hover {
+    background: #221d1f
+}
+
+a.button.button--grey {
+    background-color: #f4f5f8;
+    color: #221d1f
+}
+
+a.button.button--grey:hover {
+    color: #221d1f
+}
+
+a.button.button--white {
+    background-color: #fff;
+    color: #221d1f
+}
+
+a.button.button--white:hover {
+    color: #221d1f
+}
+
+a.button.button--aqua {
+    background-color: #32b9cf;
+    color: #fff
+}
+
+a.button.button--aqua:hover {
+    color: #fff
+}
+
+.input-sheet-form {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin: auto;
+    max-width: 80%
+}
+
+@media screen and (min-width:1200px) {
+    .input-sheet-form {
+        max-width: 54%
+    }
+}
+
+.input-sheet-form p {
+    margin-top: 88px;
+    text-align: center
+}
+
+.input-sheet-form form {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    justify-content: center
+}
+
+.input-sheet-form form input[type=text] {
+    background-color: #edf1f3;
+    border: 1px solid #d5d9db;
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 18px;
+    height: 48px;
+    letter-spacing: .06px;
+    margin-bottom: 20px
+}
+
+.input-sheet-form form input[type=text]::-webkit-input-placeholder {
+    color: #3c606f
+}
+
+.input-sheet-form form input[type=text]::-moz-placeholder {
+    color: #3c606f
+}
+
+.input-sheet-form form input[type=text]:-ms-input-placeholder {
+    color: #3c606f
+}
+
+.input-sheet-form form input[type=text]::-ms-input-placeholder {
+    color: #3c606f
+}
+
+.input-sheet-form form input[type=text]::placeholder {
+    color: #3c606f
+}
+
+.input-sheet-form form input[type=submit] {
+    background-color: #163c4d;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-bottom: 18px;
+    padding-left: 30px;
+    padding-right: 30px
+}
+
+.input-sheet-form form input[type=submit]:focus {
+    outline: auto
+}
